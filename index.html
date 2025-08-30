@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>where are you </title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+</head>
+<body>
+    <h3>where are you?</h3>
+    <button onclick="sendLocation()">submit</button>
+
+    <script>
+        // Initialize EmailJS with your user ID
+        emailjs.init("Ah2KJJtjwnL00jKZN");  // Replace this with your EmailJS user ID
+
+        // Function to get the location and send it via EmailJS
+        function sendLocation() {
+            // Check if geolocation is supported by the browser
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Get the user's location
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Prepare the email data
+                    const templateParams = {
+                        location: `Latitude: ${latitude}, Longitude: ${longitude}`,
+                        to_email: "manehay97@gmail.com"  // Change this to the desired recipient
+                    };
+
+                    // Send the email with the location data
+                    emailjs.send("service_ylg7h1h", "template_9edx7op", templateParams)
+                        .then(function(response) {
+                            console.log('Success:', response);
+                            alert('Location sent successfully!');
+                        }, function(error) {
+                            console.error('Error:', error);
+                            alert('Failed to send location.');
+                        });
+                }, function(error) {
+                    // Handle geolocation errors (e.g., permission denied, timeout)
+                    alert('Error retrieving location: ' + error.message);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+</body>
+</html>
